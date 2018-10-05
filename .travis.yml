@@ -1,4 +1,6 @@
 language: generic
+env:
+  - TRAVIS_TAG=repository
 services:
   - docker
 before_install:
