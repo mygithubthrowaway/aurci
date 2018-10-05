@@ -27,11 +27,9 @@ pacman -S {package}   # Install a package.
 For build the [AUR](https://aur.archlinux.org) packages of your election fork this repository and enable [Travis CI](https://travis-ci.org):
 
   - Fork this GitHub repository and edit `pkglist`.
-  - Create a release for your new forked repository.
   - Generate a personal access token with scope `public_repo`.
   - Enable Travis CI for your new forked repository.
   - In Travis CI repository settings disable build pull request updates, for security.
-  - In Travis CI repository settings declare two environment variables:
+  - In Travis CI repository settings declare one environment variable:
     - `GITHUB_TOKEN`: The previously created personal access token, disable display value.
-    - `TRAVIS_TAG`: The name of your previosly created GitHub release.
   - Optionally, enable a cron job in Travis CI repository settings.
