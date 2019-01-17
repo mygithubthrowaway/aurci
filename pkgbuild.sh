@@ -10,6 +10,7 @@ export AURDEST="$(pwd)/src"
 declare -r pkgrepo="${1#*/}"
 declare -a pkglist=()
 declare -a pkgkeys=()
+declare -a pkgdeps=()
 
 # Remove comments or blank lines.
 for pkgfile in "pkglist" "pkgkeys"; do
@@ -20,11 +21,15 @@ done
 mapfile pkglist < "pkglist"
 mapfile pkgkeys < "pkgkeys"
 
+# Create package list with dependencies.
+mapfile pkgdeps < <(echo ${pkglist[@]} | aur depends -n)
+pkgdeps+=("${pkglist[@]}")
+
 # Remove packages from repository.
 cd "bin"
 while read pkgpackage; do
   repo-remove "${pkgrepo}.db.tar.gz" $pkgpackage
-done < <(comm -23 <(pacman -Sl $pkgrepo | cut -d" " -f2 | sort) <(aurchain ${pkglist[@]} | sort))
+done < <(comm -23 <(pacman -Sl $pkgrepo | cut -d" " -f2 | sort) <(printf "%s" "${pkgdeps[@]}" | sort))
 cd ".."
 
 # Get package gpg keys.
@@ -33,6 +38,6 @@ for pkgkey in ${pkgkeys[@]}; do
 done
 
 # Build outdated packages.
-aursync --repo $pkgrepo --root "bin" -nr ${pkglist[@]}
+aur sync -d $pkgrepo --root "${HOME}/bin" -n ${pkglist[@]}
 
 { set +ex; } 2>/dev/null
