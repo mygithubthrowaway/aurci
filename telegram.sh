@@ -5,7 +5,7 @@ TOKEN="$1"
 CHATID="$2"
 MESSAGE="$3"
 
-MESSAGE="$(echo -e "<strong>Travis-ci Repo Notification</strong> ${MESSAGE} )"   
+MESSAGE="$(echo -e "<strong>Travis-ci Repo Notification</strong> ${MESSAGE}" )"   
 /usr/bin/curl --silent --output /dev/null \
     --data-urlencode "chat_id=${CHATID}" \
     --data-urlencode "text=${MESSAGE}" \
