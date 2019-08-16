@@ -7,12 +7,15 @@ before_install:
   - docker build -t localnet/aurci .
   - docker run -d -t --name aurci localnet/aurci bash
 install:
+  - docker cp telegram.sh aurci:/home/pkguser
   - docker cp pkgrepository.sh aurci:/home/pkguser
   - docker cp pkgbuild.sh aurci:/home/pkguser
 before_script:
+  - docker cp telegram aurci:/home/pkguser
   - docker cp pkglist aurci:/home/pkguser
   - docker cp pkgkeys aurci:/home/pkguser
 script:
+  - docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Start new deploy $TRAVIS_BUILD_ID"
   - docker exec aurci bash pkgrepository.sh $TRAVIS_REPO_SLUG $TRAVIS_TAG
   - docker exec aurci bash pkgbuild.sh $TRAVIS_REPO_SLUG $TRAVIS_BUILD_ID
 before_deploy:
