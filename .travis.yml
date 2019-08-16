@@ -11,7 +11,6 @@ install:
   - docker cp pkgrepository.sh aurci:/home/pkguser
   - docker cp pkgbuild.sh aurci:/home/pkguser
 before_script:
-  - docker cp telegram aurci:/home/pkguser
   - docker cp pkglist aurci:/home/pkguser
   - docker cp pkgkeys aurci:/home/pkguser
 script:
