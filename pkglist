@@ -1,5 +1,4 @@
 aic94xx-firmware
-auracle-git
 betterlockscreen
 btrfs-du
 cfssl
@@ -19,7 +18,6 @@ gnome-shell-pomodoro
 google-cloud-sdk
 grub2-theme-archlinux
 i3pystatus-git
-kubedee
 kubernetes-helm
 libestr
 libfastjson
