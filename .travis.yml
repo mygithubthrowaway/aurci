@@ -14,10 +14,10 @@ before_script:
   - docker cp pkglist aurci:/home/pkguser
   - docker cp pkgkeys aurci:/home/pkguser
 script:
-  - docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Start new deploy $TRAVIS_BUILD_ID"
+  - docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "'Start new deploy' $TRAVIS_BUILD_ID"
   - docker exec aurci bash pkgrepository.sh $TRAVIS_REPO_SLUG $TRAVIS_TAG
   - docker exec aurci bash pkgbuild.sh $TRAVIS_REPO_SLUG $TRAVIS_BUILD_ID
-  - docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Deploy finished $TRAVIS_BUILD_ID"
+  - docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "'Deploy finished' $TRAVIS_BUILD_ID"
 before_deploy:
   - docker cp aurci:/home/pkguser/bin $TRAVIS_TAG
 deploy:
