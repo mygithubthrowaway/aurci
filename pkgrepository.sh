@@ -26,9 +26,13 @@ echo 'auto-key-retrieve:0:1' | gpgconf --change-options gpg
 echo 'keyserver:0:"hkp%3a//na.pool.sks-keyservers.net' | gpgconf --change-options dirmngr
 ls -lhart
 if [[ -r mygithubthrowaway-key.gpg ]]; then
+  echo "step1"
   gpg --import mygithubthrowaway-key.gpg
-  gpg --export --armor | sudo tee /usr/share/pacman/keyrings/pkgbuild.gpg >/dev/null
+  echo "step2"
+  gpg --export --armor | sudo tee /usr/share/pacman/keyrings/mygithubthrowaway-key.gpg >/dev/null
+  echo "step3"
   gpg -k --with-colons | grep -m1 '^fpr' | cut -d: -f10 | sed 's/$/:4:/' | sudo tee /usr/share/pacman/keyrings/pkgbuild-trusted >/dev/null
+  echo "step4"
   sudo pacman-key --populate pkgbuild
   SIGN_PKG=--sign
 fi
