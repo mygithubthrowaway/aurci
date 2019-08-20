@@ -29,12 +29,12 @@ if [[ -r mygithubthrowaway-key.gpg ]]; then
   echo "step1"
   gpg --batch --import mygithubthrowaway-key.gpg
   echo "step2"
-  gpg --batch --export --armor | sudo tee /usr/share/pacman/keyrings/mygithubthrowaway-key.gpg >/dev/null
+  gpg --batch --export --armor | sudo tee /usr/share/pacman/keyrings/mygithubthrowaway.gpg >/dev/null
   echo "step3"
   gpg -k --with-colons | grep -m1 '^fpr' | cut -d: -f10 | sed 's/$/:4:/' | sudo tee /usr/share/pacman/keyrings/pkgbuild-trusted >/dev/null
   echo "step4"
-  sudo pacman-key --populate pkgbuild
-  SIGN_PKG=--sign
+  sudo pacman-key --populate mygithubthrowaway
+  SIGN_PKG=--sign 
 fi
 
 # Enable multilib repository.
