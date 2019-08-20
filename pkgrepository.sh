@@ -24,8 +24,8 @@ chmod 700 "$HOME/.gnupg"
 echo 'auto-key-retrieve:0:1' | gpgconf --change-options gpg
 echo 'keyserver:0:"hkp%3a//na.pool.sks-keyservers.net' | gpgconf --change-options dirmngr
 ls -lhart
-if [[ -r master/mygithubthrowaway-key.gpg ]]; then
-  gpg --import master/mygithubthrowaway-key.gpg
+if [[ -r mygithubthrowaway-key.gpg ]]; then
+  gpg --import mygithubthrowaway-key.gpg
   gpg --export --armor | sudo tee /usr/share/pacman/keyrings/pkgbuild.gpg >/dev/null
   gpg -k --with-colons | grep -m1 '^fpr' | cut -d: -f10 | sed 's/$/:4:/' | sudo tee /usr/share/pacman/keyrings/pkgbuild-trusted >/dev/null
   sudo pacman-key --populate pkgbuild
