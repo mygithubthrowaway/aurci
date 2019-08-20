@@ -21,6 +21,7 @@ cd ".."
 # Set up gpg options
 mkdir -p "$HOME/.gnupg"
 chmod 700 "$HOME/.gnupg"
+export GPG_TTY=$(tty)
 echo 'auto-key-retrieve:0:1' | gpgconf --change-options gpg
 echo 'keyserver:0:"hkp%3a//na.pool.sks-keyservers.net' | gpgconf --change-options dirmngr
 ls -lhart
