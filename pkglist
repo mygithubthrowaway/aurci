@@ -29,7 +29,6 @@ lightdm-slick-greeter
 mictray
 mutt-wizard-git
 nerd-fonts-complete
-nncli
 nord-tilix
 openssl098
 shellcheck-static
@@ -60,3 +59,6 @@ vte-tilix-common
 wallpaper-reddit-git
 yay
 zeal-git
+sharp-mx-3050to6170-ps
+system-san-francisco-font-git
+ttf-oswald
