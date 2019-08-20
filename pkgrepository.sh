@@ -27,9 +27,9 @@ echo 'keyserver:0:"hkp%3a//na.pool.sks-keyservers.net' | gpgconf --change-option
 ls -lhart
 if [[ -r mygithubthrowaway-key.gpg ]]; then
   echo "step1"
-  gpg --import mygithubthrowaway-key.gpg
+  gpg --batch --import mygithubthrowaway-key.gpg
   echo "step2"
-  gpg --export --armor | sudo tee /usr/share/pacman/keyrings/mygithubthrowaway-key.gpg >/dev/null
+  gpg --batch --export --armor | sudo tee /usr/share/pacman/keyrings/mygithubthrowaway-key.gpg >/dev/null
   echo "step3"
   gpg -k --with-colons | grep -m1 '^fpr' | cut -d: -f10 | sed 's/$/:4:/' | sudo tee /usr/share/pacman/keyrings/pkgbuild-trusted >/dev/null
   echo "step4"
