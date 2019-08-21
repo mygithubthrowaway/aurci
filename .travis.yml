@@ -4,8 +4,8 @@ env:
 services:
 - docker
 before_install:
-- openssl aes-256-cbc -K $encrypted_f86e69f30052_key -iv $encrypted_f86e69f30052_iv
-  -in mygithubthrowaway-key.gpg.enc -out mygithubthrowaway-key.gpg -d
+- openssl aes-256-cbc -K $encrypted_f86e69f30052_key -iv $encrypted_f86e69f30052_iv -in mygithubthrowaway.tar.gz.enc -out mygithubthrowaway.tar.gz -d
+- tar xvf mygithubthrowaway.tar.gz
 - docker build -t localnet/aurci .
 - docker run -d -t --name aurci localnet/aurci bash
 install:
@@ -15,21 +15,20 @@ install:
 before_script:
 - docker cp pkglist aurci:/home/pkguser
 - docker cp pkgkeys aurci:/home/pkguser
+- docker cp mygithubthrowaway-key.pub.gpg aurci:/home/pkguser
 - docker cp mygithubthrowaway-key.gpg aurci:/home/pkguser
 script:
-- docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Start new deploy
-  $TRAVIS_BUILD_ID"
+- docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Start new deploy $TRAVIS_BUILD_ID"
 - docker exec aurci bash pkgrepository.sh $TRAVIS_REPO_SLUG $TRAVIS_TAG
 - docker exec aurci bash pkgbuild.sh $TRAVIS_REPO_SLUG $TRAVIS_BUILD_ID
-- docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Deploy finished
-  $TRAVIS_BUILD_ID $TRAVIS_BUILD_WEB_URL"
+- docker exec aurci bash telegram.sh $TELEGRAM_TOKEN $TELEGRAM_CHATID "Deploy finished $TRAVIS_BUILD_ID $TRAVIS_BUILD_WEB_URL"
 before_deploy:
 - docker cp aurci:/home/pkguser/bin $TRAVIS_TAG
 deploy:
   provider: releases
   api_key: "$GITHUB_TOKEN"
   file_glob: true
-  file: "${TRAVIS_TAG}/*{db,files,gz,xz}"
+  file: "${TRAVIS_TAG}/*.{db,files,gz,xz,sig}"
   overwrite: true
   skip_cleanup: true
   on:

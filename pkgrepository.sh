@@ -24,17 +24,14 @@ chmod 700 "$HOME/.gnupg"
 export GPG_TTY=$(tty)
 echo 'auto-key-retrieve:0:1' | gpgconf --change-options gpg
 echo 'keyserver:0:"hkp%3a//na.pool.sks-keyservers.net' | gpgconf --change-options dirmngr
+echo 'keep-display' >> "$HOME/.gnupg/gpg-agent.conf"
 ls -lhart
 if [[ -r mygithubthrowaway-key.gpg ]]; then
-  echo "step1"
   gpg --batch --import mygithubthrowaway-key.gpg
-  echo "step2"
-  gpg --batch --export --armor | sudo tee /usr/share/pacman/keyrings/mygithubthrowaway.gpg >/dev/null
-  echo "step3"
-  gpg -k --with-colons | grep -m1 '^fpr' | cut -d: -f10 | sed 's/$/:4:/' | sudo tee /usr/share/pacman/keyrings/pkgbuild-trusted >/dev/null
-  echo "step4"
-  sudo pacman-key --populate mygithubthrowaway
-  SIGN_PKG=--sign 
+  for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --no-tty --command-fd 0 --expert --edit-key $fpr trust; done
+  sudo pacman-key --init
+  sudo pacman-key --add mygithubthrowaway-key.pub.gpg
+  #sudo pacman-key --lsign-key mygithubthrowaway-key.pub.gpg
 fi
 
 # Enable multilib repository.
