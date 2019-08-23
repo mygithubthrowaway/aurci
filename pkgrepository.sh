@@ -31,7 +31,6 @@ if [[ -r mygithubthrowaway-key.gpg ]]; then
   for fpr in $(gpg --list-keys --with-colons  | awk -F: '/fpr:/ {print $10}' | sort -u); do  echo -e "5\ny\n" |  gpg --no-tty --command-fd 0 --expert --edit-key $fpr trust; done
   sudo pacman-key --init
   sudo pacman-key --add mygithubthrowaway-key.pub.gpg
-  #sudo pacman-key --lsign-key mygithubthrowaway-key.pub.gpg
 fi
 
 # Enable multilib repository.
@@ -55,7 +54,7 @@ sudo tee -a "/etc/pacman.conf" << EOF
 
 [aurutilsci]
 SigLevel = Optional TrustAll
-Server = https://github.com/localnet/aurutilsci/releases/download/repository
+Server = https://github.com/mygithubthrowaway/aurutilsci/releases/download/repository
 
 Include = /etc/pacman.d/${pkgrepo}
 EOF
